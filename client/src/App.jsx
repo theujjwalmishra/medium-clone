@@ -4,8 +4,7 @@ import Write from './Write';
 import ArticleView from './ArticleView';
 import Auth from './Auth';
 
-// Isko hum deployment ke waqt live backend URL se badal denge
-const API_BASE_URL = 'http://localhost:8000';
+const API_BASE_URL = 'https://medium-clone-five-alpha.vercel.app';
 
 function App() {
   const [page, setPage] = useState('home');
@@ -20,7 +19,7 @@ function App() {
         setArticles(response.data);
         setLoading(false);
       } catch (err) {
-        console.error("Backend se data lane me dikat hui", err);
+        console.error("Error fetching dynamic feed data:", err);
         setLoading(false);
       }
     };
@@ -34,14 +33,12 @@ function App() {
       <nav className="bg-white border-b border-gray-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 h-16 flex justify-between items-center">
           
-          {/* Logo */}
           <div className="flex items-center gap-3 cursor-pointer" onClick={() => setPage('home')}>
             <span className="text-2xl font-black tracking-tight text-black font-serif">
               Medium<span className="text-[#1a8917]">Clone</span>
             </span>
           </div>
 
-          {/* Menu Items */}
           <div className="flex items-center gap-6">
             <span onClick={() => setPage('home')} className="text-sm text-gray-500 hover:text-black cursor-pointer hidden md:inline transition-colors">Our story</span>
             <span onClick={() => setPage('write')} className="text-sm text-gray-500 hover:text-black cursor-pointer font-medium flex items-center gap-1.5 transition-colors">
@@ -56,7 +53,7 @@ function App() {
         </div>
       </nav>
 
-      {/* DYNAMIC PAGES ROUTING ROUTER */}
+      {/* DYNAMIC ROUTING CONFIGURATION */}
       {page === 'write' ? (
         <Write setPage={setPage} />
       ) : page === 'view' ? (
@@ -94,9 +91,11 @@ function App() {
             </div>
             
             {loading ? (
-              <div className="text-center py-12 text-sm font-medium text-gray-400 animate-pulse">Database se latest stories laa rahe hain... ⏳</div>
+              <div className="text-center py-12 text-sm font-medium text-gray-400 animate-pulse">Fetching latest stories from database... ⏳</div>
             ) : articles.length === 0 ? (
-              <div className="text-center py-12 text-sm font-medium text-gray-400">Abhi koi stories live nahi hui hain. Pehli story aap likhiye! 📝</div>
+              <div className="text-center py-12 text-sm font-medium text-gray-400">
+                No stories published yet. Be the first to share your story! 📝
+              </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {articles.map((article) => (

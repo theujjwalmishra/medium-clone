@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8000';
+const API_BASE_URL = 'https://medium-clone-five-alpha.vercel.app';
 
 function Write({ setPage }) {
   const [title, setTitle] = useState('');
@@ -11,7 +11,7 @@ function Write({ setPage }) {
 
   const handlePublish = async (e) => {
     e.preventDefault();
-    if (!title || !content) return alert("Title aur Content likhna zaroori hai bhaiya!");
+    if (!title || !content) return alert("Title and Content fields are required.");
 
     setLoading(true);
     try {
@@ -22,11 +22,11 @@ function Write({ setPage }) {
         authorId: "65f1bc479b1d4c23a8b45678", 
         status: "Published"
       });
-      alert("Wow! Blog article live ho gaya! 🎉");
+      alert("Congratulations! Your story is live. 🎉");
       setPage('home');
     } catch (err) {
-      console.error(err);
-      alert("Save karne me kuch gaddbad hui.");
+      console.error("Publish action encountered an issue:", err);
+      alert("Failed to save or publish the article. Please check your connection.");
     }
     setLoading(false);
   };
@@ -42,7 +42,7 @@ function Write({ setPage }) {
         </button>
         
         <div className="flex items-center gap-4">
-          <span className="text-xs text-gray-400 font-medium">Draft in Ujjwal Mishra</span>
+          <span className="text-xs text-gray-400 font-medium">Drafting story</span>
           <button 
             onClick={handlePublish}
             disabled={loading}
